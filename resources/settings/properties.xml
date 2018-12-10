@@ -1,0 +1,20 @@
+<resources>
+	<properties>
+		<property id="restThresholdPace" type="number">325</property>
+		<property id="lastLapHrType" type="number">0</property>
+	</properties>
+
+	<settings>
+		<setting propertyKey="@Properties.restThresholdPace" title="@Strings.restThresholdPaceTitle" prompt="@Strings.restThresholdPacePrompt">
+			<settingConfig type="numeric" required="true" min="240" max="600" errorMessage="@Strings.restThresholdPaceError"/>
+		</setting>
+		
+		<setting propertyKey="@Properties.lastLapHrType" title="@Strings.lastLapHrTypeTitle">
+			<settingConfig type="list">
+				<listEntry value="0">@Strings.lastHR</listEntry>
+				<listEntry value="10">@Strings.maxHR</listEntry>
+				<listEntry value="20">@Strings.avgHR</listEntry>
+			</settingConfig>
+		</setting>
+	</settings>
+</resources>

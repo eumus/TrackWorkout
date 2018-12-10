@@ -1,0 +1,12 @@
+<strings>
+    <string id="AppName">TrackWorkout</string>
+    
+    <string id="lastLapHrTypeTitle">Last lap HR field displays</string>
+    <string id="lastHR">HR at the end of the lap</string>
+    <string id="maxHR">Lap maximum HR</string>
+    <string id="avgHR">Lap average HR</string>
+    
+    <string id="restThresholdPaceTitle">Workout/Rest pace threshold (sec/km)</string>
+    <string id="restThresholdPacePrompt">Workout/Rest splitting threshold pace. Any lap faster that it is workout lap, slower - rest lap</string>
+    <string id="restThresholdPaceError">Pace threshold must be between 180 (4 min/km) and 600 (10 min/km)</string>
+</strings>
