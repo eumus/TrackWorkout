@@ -146,21 +146,26 @@ class TrackWorkoutView extends WatchUi.DataField {
 		y += dc.getFontHeight(Graphics.FONT_NUMBER_MEDIUM) + 6;
     	dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
     	dc.drawLine(2, y, width - 2, y);
-    	dc.drawLine(width / 2, fieldTop, width / 2, fieldBottom);
+    	dc.drawLine(width / 2, fieldTop, width / 2, y);
     	// Second row: lap number, interval number, interval distance
     	var rowTop = y;
     	y += 6;
 		dc.setColor((isWorkoutLap ? Graphics.COLOR_DK_RED : Graphics.COLOR_DK_GREEN), Graphics.COLOR_TRANSPARENT);
 		dc.drawText(6, y, Graphics.FONT_NUMBER_MEDIUM, lapCnt, Graphics.TEXT_JUSTIFY_LEFT);
+		dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+		dc.drawText(width * 2 / 5 - 10, y + 4, Graphics.FONT_NUMBER_MILD, intervalCnt, Graphics.TEXT_JUSTIFY_RIGHT);
 		dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
-		dc.drawText(width / 2 - 4, y, Graphics.FONT_NUMBER_MEDIUM, lastLapHr, Graphics.TEXT_JUSTIFY_RIGHT);
-		dc.drawText(width - 6, y, Graphics.FONT_NUMBER_MEDIUM, intervalDistance, Graphics.TEXT_JUSTIFY_RIGHT);
+		dc.drawText(width * 3 / 5 + 8, y, Graphics.FONT_NUMBER_MEDIUM, lastLapHr, Graphics.TEXT_JUSTIFY_RIGHT);
+		dc.drawText(width - 6, y + 4, Graphics.FONT_NUMBER_MILD, intervalDistance, Graphics.TEXT_JUSTIFY_RIGHT);
     	dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
 		y += dc.getFontHeight(Graphics.FONT_NUMBER_MEDIUM) + 6;
     	dc.drawLine(2, y, width - 2, y);
     	dc.drawLine(width / 5 + 4, rowTop, width / 5 + 4, y);		
+    	dc.drawLine(width * 2 / 5 - 6, rowTop, width * 2 / 5 - 6, y);		
+    	dc.drawLine(width * 3 / 5 + 12, rowTop, width * 3 / 5 + 12, y);		
     	// Third row: interval time, interval pace
     	y += 6;
+    	dc.drawLine(width / 2, y, width / 2, fieldBottom);
     	dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
     	dc.drawText(24, y, Graphics.FONT_NUMBER_MEDIUM, toMinSec(intervalTime), Graphics.TEXT_JUSTIFY_LEFT);   	
     	dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
