@@ -1,6 +1,6 @@
 # TrackWorkout
 
-Data field for Garmin Forerunner watches designed for interval track workouts.
+Data field for Garmin Forerunner 935/645 and Fenix 5 watches designed for interval track workouts.
 
 When I do interval workouts on the track, I usually want the lap distance to be rounded to 200 or 400 meters. It's common that GPS doesn't work well on short tracks (nevermind the indoor tracks!),
 so when you press the Lap button after a lap it can be counted as 370 or 420 meters. So you can't tell the pace. Also I'm used to forget how many laps I've done when the interval is longer than 5-6 laps.
@@ -15,6 +15,7 @@ Displays:
 - Last lap time
 - Last lap pace
 - Number of laps done in the current interval (red - workout interval, green - rest)
+- Current workout interval #
 - Last lap HR (HR at the end of the lap / avg HR / max HR)
 - Current interval distance rounded to the 200x meters
 - Current interval time
