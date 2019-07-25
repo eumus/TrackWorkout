@@ -128,17 +128,24 @@ class TrackWorkoutView extends WatchUi.DataField {
 	    dc.clear();
 
 	    var info = Activity.getActivityInfo();	    	    
-		drawTopField(dc, info);
-		drawMiddleFields(dc);
+		if (settings.isSimpleMode) {
+			drawTopFieldsSimpleMode(dc, info);
+		} else {
+			drawTopFields(dc, info);
+		}
 	    drawBottomField(dc, info);
     }
     
-    function drawMiddleFields(dc) {
+    function drawTopFields(dc, info) {
+	    // Draw the current lap time in the top
+	    dc.setColor(Graphics.COLOR_DK_BLUE, Graphics.COLOR_WHITE);
+	    dc.drawText(dc.getWidth() / 2, 8, Graphics.FONT_NUMBER_MEDIUM, toMinSec(info.timerTime - prevTimerTime), Graphics.TEXT_JUSTIFY_CENTER); 
+    
     	var width = dc.getWidth();
     	var fieldTop = dc.getFontHeight(Graphics.FONT_NUMBER_MEDIUM) + 18;
 		var fieldBottom = dc.getHeight() - dc.getFontHeight(Graphics.FONT_NUMBER_MEDIUM) - 6;
-    	// First row: lap time, lap pace
     	var y = fieldTop + 2;
+    	// First row: lap time, lap pace
     	dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
     	dc.drawText(20, y, Graphics.FONT_NUMBER_MEDIUM, toMinSec(lastLapTime), Graphics.TEXT_JUSTIFY_LEFT);
     	dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
@@ -171,11 +178,49 @@ class TrackWorkoutView extends WatchUi.DataField {
     	dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
     	dc.drawText(width - 24, y, Graphics.FONT_NUMBER_MEDIUM, toMinSec(intervalPace * 1000), Graphics.TEXT_JUSTIFY_RIGHT);
     }
-
-    function drawTopField(dc, info) {
+    
+    function drawTopFieldsSimpleMode(dc, info) {
 	    // Draw the current lap time in the top
 	    dc.setColor(Graphics.COLOR_DK_BLUE, Graphics.COLOR_WHITE);
-	    dc.drawText(dc.getWidth() / 2, 8, Graphics.FONT_NUMBER_MEDIUM, toMinSec(info.timerTime - prevTimerTime), Graphics.TEXT_JUSTIFY_CENTER); 
+	    dc.drawText(dc.getWidth() / 2, 16, Graphics.FONT_NUMBER_THAI_HOT, toMinSec(info.timerTime - prevTimerTime), Graphics.TEXT_JUSTIFY_CENTER); 
+
+    	var width = dc.getWidth();
+    	var fieldTop = dc.getFontHeight(Graphics.FONT_NUMBER_THAI_HOT) + 13;
+		var fieldBottom = dc.getHeight() - dc.getFontHeight(Graphics.FONT_NUMBER_MEDIUM) - 6;
+    	var titleHeight = dc.getFontHeight(Graphics.FONT_XTINY) - 1;
+    	
+    	// Second row: lap number, interval number, interval distance
+    	var y = fieldTop;
+    	var rowTop = y;
+    	y += titleHeight;
+		dc.setColor((isWorkoutLap ? Graphics.COLOR_DK_RED : Graphics.COLOR_DK_GREEN), Graphics.COLOR_TRANSPARENT);
+		dc.drawText(6, y, Graphics.FONT_NUMBER_MEDIUM, lapCnt, Graphics.TEXT_JUSTIFY_LEFT);
+		dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+		dc.drawText(width / 2 + 4, y, Graphics.FONT_NUMBER_MEDIUM, intervalCnt, Graphics.TEXT_JUSTIFY_RIGHT);
+		dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+		dc.drawText(width - 6, y, Graphics.FONT_NUMBER_MEDIUM, intervalDistance, Graphics.TEXT_JUSTIFY_RIGHT);
+    	
+    	dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+		dc.drawText(8, rowTop, Graphics.FONT_XTINY, "Lap", Graphics.TEXT_JUSTIFY_LEFT);
+		dc.drawText(width / 2 + 4, rowTop, Graphics.FONT_XTINY, "Interval", Graphics.TEXT_JUSTIFY_RIGHT);
+		dc.drawText(width - 8, rowTop, Graphics.FONT_XTINY, "Distance", Graphics.TEXT_JUSTIFY_RIGHT);
+    	
+		y += dc.getFontHeight(Graphics.FONT_NUMBER_MEDIUM) + 4;
+    	dc.drawLine(2, y, width - 2, y);
+    	dc.drawLine(width / 4 - 10, rowTop + 6, width / 4 - 10, y);		
+    	dc.drawLine(width / 2 + 8, rowTop + 6, width / 2 + 8, y);	
+    		
+    	// Third row: interval time, interval pace
+    	rowTop = y - 3;
+    	y += titleHeight - 5;	
+    	dc.drawLine(width / 2, rowTop + 8, width / 2, fieldBottom - 4);
+		dc.drawText(24, rowTop, Graphics.FONT_XTINY, "Time", Graphics.TEXT_JUSTIFY_LEFT);
+		dc.drawText(width - 24, rowTop, Graphics.FONT_XTINY, "Pace", Graphics.TEXT_JUSTIFY_RIGHT);
+
+    	dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+    	dc.drawText(24, y, Graphics.FONT_NUMBER_MEDIUM, toMinSec(intervalTime), Graphics.TEXT_JUSTIFY_LEFT);   	
+    	dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+    	dc.drawText(width - 24, y, Graphics.FONT_NUMBER_MEDIUM, toMinSec(intervalPace * 1000), Graphics.TEXT_JUSTIFY_RIGHT);
     }
     
     function drawBottomField(dc, info) {
@@ -187,7 +232,7 @@ class TrackWorkoutView extends WatchUi.DataField {
 	    var y = dc.getHeight() - dc.getFontHeight(Graphics.FONT_NUMBER_MEDIUM) - 6;
 	    dc.setColor(bottomBgColor, bottomBgColor);
 	    dc.fillRectangle(0, y, dc.getWidth(), dc.getHeight() - y);
-	    dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+	    dc.setColor(getForegroundColorFor(bottomBgColor), Graphics.COLOR_TRANSPARENT);
 	    
 	    dc.drawText(dc.getWidth() / 2, y + 1, Graphics.FONT_NUMBER_MEDIUM, val, Graphics.TEXT_JUSTIFY_CENTER); 
     }
@@ -205,6 +250,14 @@ class TrackWorkoutView extends WatchUi.DataField {
 			return Graphics.COLOR_RED;
 		}
 		return Graphics.COLOR_LT_GRAY; // Default to Zone 1 and below
+    }
+    
+    function getForegroundColorFor(backgroundColor) {
+    	if (backgroundColor == Graphics.COLOR_RED) {
+    		return Graphics.COLOR_WHITE;
+		} else {
+			return Graphics.COLOR_BLACK;
+		}
     }
     
     function toMinSec(msValue) {

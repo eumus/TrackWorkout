@@ -2,6 +2,8 @@
 	<properties>
 		<property id="restThresholdPace" type="number">325</property>
 		<property id="lastLapHrType" type="number">0</property>
+		<property id="lastLapHrType" type="number">0</property>
+		<property id="isSimpleMode" type="boolean">false</property>
 	</properties>
 
 	<settings>
@@ -15,6 +17,10 @@
 				<listEntry value="10">@Strings.maxHR</listEntry>
 				<listEntry value="20">@Strings.avgHR</listEntry>
 			</settingConfig>
+		</setting>
+		
+		<setting propertyKey="@Properties.isSimpleMode" title="@Strings.isSimpleModeTitle" prompt="@Strings.isSimpleModePrompt">
+			<settingConfig type="boolean"/>
 		</setting>
 	</settings>
 </resources>
